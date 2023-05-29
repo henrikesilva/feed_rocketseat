@@ -1,7 +1,10 @@
 import { Post } from "./Post"
-import { Header } from "./components/Header";
+import { Header } from "./components/Header"
+
+import styles from './App.module.css'
 
 import './global.css';
+import { Sidebar } from "./components/Sidebar";
 
 export function App() {
 
@@ -9,14 +12,20 @@ export function App() {
     <div>
       <Header />
 
-      <Post 
-        author="Henrique Lima"
-        content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, commodi dolor. Autem in nobis cumque? Deserunt quia culpa dolorem odio deleniti. Eos quidem culpa, earum ex nemo necessitatibus non quae."
-      />
-      <Post 
-        author="Tiozinho"
-        content="Aqui vem o conteudo do tiozinho"
-      />
+      <div className={styles.wrapper}>
+        <Sidebar />
+
+        <main>
+          <Post
+            author="Henrique Lima"
+            content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores, commodi dolor. Autem in nobis cumque? Deserunt quia culpa dolorem odio deleniti. Eos quidem culpa, earum ex nemo necessitatibus non quae."
+          />
+          <Post
+            author="Tiozinho"
+            content="Aqui vem o conteudo do tiozinho"
+          />
+        </main>
+      </div>
     </div>
   )
 }
