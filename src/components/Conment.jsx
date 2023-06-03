@@ -1,10 +1,11 @@
 import { ThumbsUp, Trash } from 'phosphor-react'
 import styles from './Conment.module.css'
+import { Avatar } from './Avatar'
 
 export function Conment() {
     return (
         <div className={styles.conment}>
-            <img src="https://github.com/henrikesilva.png" />
+            <Avatar hasBorder={false} src="https://github.com/henrikesilva.png" />
 
             <div className={styles.conmentBox}>
                 <div className={styles.conmentContent}>
