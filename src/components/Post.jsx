@@ -8,6 +8,7 @@ import ptBR from 'date-fns/locale/pt-BR'
 
 
 export function Post({ author, publishedAt, content }) {
+    
     const [conments, setConments] = useState([
         'Post muito bacana, hein',
     ])
@@ -30,6 +31,14 @@ export function Post({ author, publishedAt, content }) {
 
     function handleNewConmentChange() {
         setNewConmentText(event.target.value)
+    }
+
+    function deleteConment(conmentToDelete) {
+        const conmentsWhitoutDeletedOne = conments.filter(conment => {
+            return conment !== conmentToDelete
+        })
+
+        setConments(conmentsWhitoutDeletedOne)
     }
 
     return (
@@ -78,7 +87,13 @@ export function Post({ author, publishedAt, content }) {
 
             <div className={styles.conmentList}>
                 {conments.map(conment => {
-                    return <Conment key={conment} content={conment} />
+                    return (
+                        <Conment 
+                            key={conment}
+                            content={conment} 
+                            onDeleteConment={deleteConment} 
+                        /> 
+                    )
                 })}
             </div>
         </article>
