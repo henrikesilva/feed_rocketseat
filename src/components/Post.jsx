@@ -9,9 +9,10 @@ import ptBR from 'date-fns/locale/pt-BR'
 
 export function Post({ author, publishedAt, content }) {
     const [conments, setConments] = useState([
-        1,
-        2,
+        'Post muito bacana, hein',
     ])
+
+    const [newConmentText, setNewConmentText] = useState('')
 
     const publishedDateFormated = format(publishedAt, "dd 'de' LLLL 'às' HH:mm'h'", { locale: ptBR })
 
@@ -23,7 +24,12 @@ export function Post({ author, publishedAt, content }) {
     function handleCreateNewConment() {
         event.preventDefault()
 
-        setConments([...conments, conments.length + 1])
+        setConments([...conments, newConmentText])
+        setNewConmentText('')
+    }
+
+    function handleNewConmentChange() {
+        setNewConmentText(event.target.value)
     }
 
     return (
@@ -43,11 +49,11 @@ export function Post({ author, publishedAt, content }) {
             <div className={styles.content}>
                 {content.map(line => {
                     if (line.type === 'paragraph') {
-                        return <p>{line.content}</p>
+                        return <p key={line.content}>{line.content}</p>
                     }
                     else if (line.type === 'link') {
                         return (
-                            <p>
+                            <p key={line.content}>
                                 <a href="">{line.content}</a>
                             </p>
                         )
@@ -59,7 +65,10 @@ export function Post({ author, publishedAt, content }) {
                 <strong>Deixe seu feedback</strong>
 
                 <textarea
+                    name='conment'
                     placeholder="Deixe um comentário"
+                    value={newConmentText}
+                    onChange={handleNewConmentChange}
                 />
 
                 <footer>
@@ -69,7 +78,7 @@ export function Post({ author, publishedAt, content }) {
 
             <div className={styles.conmentList}>
                 {conments.map(conment => {
-                    return <Conment />
+                    return <Conment key={conment} content={conment} />
                 })}
             </div>
         </article>

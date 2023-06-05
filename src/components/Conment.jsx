@@ -2,7 +2,7 @@ import { ThumbsUp, Trash } from 'phosphor-react'
 import styles from './Conment.module.css'
 import { Avatar } from './Avatar'
 
-export function Conment() {
+export function Conment({content}) {
     return (
         <div className={styles.conment}>
             <Avatar hasBorder={false} src="https://github.com/henrikesilva.png" />
@@ -20,7 +20,7 @@ export function Conment() {
                         </button>
                     </header>
 
-                    <p>Muito bom Devon, parabéns!! 👏👏</p>
+                    <p>{content}</p>
                 </div>
 
                 <footer>
