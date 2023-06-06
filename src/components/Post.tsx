@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { FormEvent, ChangeEvent, useState, InvalidEvent } from 'react'
 import { Avatar } from './Avatar'
 import { Conment } from './Conment'
 import styles from './Post.module.css'
@@ -7,7 +7,31 @@ import { format, formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 
 
-export function Post({ author, publishedAt, content }) {
+interface Author {
+    name: string;
+    role: string;
+    avatarUrl: string;
+}
+
+interface Content {
+    type: 'paragraph' | 'link';
+    content: string;
+
+}
+
+export interface PostType {
+    id: number;
+    author: Author;
+    publishedAt: Date;
+    content: Content[];
+}
+
+interface PostProps {
+    post: PostType
+}
+
+
+export function Post({ post } : PostProps) {
     
     const [conments, setConments] = useState([
         'Post muito bacana, hein',
@@ -15,30 +39,30 @@ export function Post({ author, publishedAt, content }) {
 
     const [newConmentText, setNewConmentText] = useState('')
 
-    const publishedDateFormated = format(publishedAt, "dd 'de' LLLL 'às' HH:mm'h'", { locale: ptBR })
+    const publishedDateFormated = format(post.publishedAt, "dd 'de' LLLL 'às' HH:mm'h'", { locale: ptBR })
 
-    const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+    const publishedDateRelativeToNow = formatDistanceToNow(post.publishedAt, {
         locale: ptBR,
         addSuffix: true,
     })
 
-    function handleCreateNewConment() {
+    function handleCreateNewConment(event: FormEvent) {
         event.preventDefault()
 
         setConments([...conments, newConmentText])
         setNewConmentText('')
     }
 
-    function handleNewConmentChange() {
+    function handleNewConmentChange(event: ChangeEvent<HTMLTextAreaElement>) {
         event.target.setCustomValidity('')
         setNewConmentText(event.target.value)
     }
 
-    function handleNewConmentInvalid() {
+    function handleNewConmentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
         event.target.setCustomValidity('Esse campo é obrigatório!')
     }
 
-    function deleteConment(conmentToDelete) {
+    function deleteConment(conmentToDelete: string) {
         const conmentsWhitoutDeletedOne = conments.filter(conment => {
             return conment !== conmentToDelete
         })
@@ -52,18 +76,18 @@ export function Post({ author, publishedAt, content }) {
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <Avatar src={author.avatarUrl} />
+                    <Avatar src={post.author.avatarUrl} />
                     <div className={styles.authorInfo}>
-                        <strong>{author.name}</strong>
-                        <span>{author.role}</span>
+                        <strong>{post.author.name}</strong>
+                        <span>{post.author.role}</span>
                     </div>
                 </div>
 
-                <time title={publishedDateFormated} dateTime={publishedAt.toISOString()}>{publishedDateRelativeToNow}</time>
+                <time title={publishedDateFormated} dateTime={post.publishedAt.toISOString()}>{publishedDateRelativeToNow}</time>
             </header>
 
             <div className={styles.content}>
-                {content.map(line => {
+                {post.content.map(line => {
                     if (line.type === 'paragraph') {
                         return <p key={line.content}>{line.content}</p>
                     }

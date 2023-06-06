@@ -3,7 +3,12 @@ import styles from './Conment.module.css'
 import { Avatar } from './Avatar'
 import { useState } from 'react'
 
-export function Conment({ content, onDeleteConment }) {
+interface ConmentProps {
+    content: string;
+    onDeleteConment: (conment: string) => void
+}
+
+export function Conment({ content, onDeleteConment }: ConmentProps) {
 
     const [likeCount, setLikeCount] = useState(0)
 
@@ -17,7 +22,11 @@ export function Conment({ content, onDeleteConment }) {
 
     return (
         <div className={styles.conment}>
-            <Avatar hasBorder={false} src="https://github.com/henrikesilva.png" />
+            <Avatar 
+                hasBorder={false}
+                src="https://github.com/henrikesilva.png"
+                alt=''
+            />
 
             <div className={styles.conmentBox}>
                 <div className={styles.conmentContent}>
